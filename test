@@ -1,0 +1,405 @@
+ 10  
+.gitignore
+@@ -0,0 +1,10 @@
+/bower_components/
+/node_modules/
+/.pulp-cache/
+/output/
+/generated-docs/
+/.psc-package/
+/.psc*
+/.purs*
+/.psa*
+/.spago
+ 105  
+packages.dhall
+@@ -0,0 +1,105 @@
+{-
+Welcome to your new Dhall package-set!
+Below are instructions for how to edit this file for most use
+cases, so that you don't need to know Dhall to use it.
+## Use Cases
+Most will want to do one or both of these options:
+1. Override/Patch a package's dependency
+2. Add a package not already in the default package set
+This file will continue to work whether you use one or both options.
+Instructions for each option are explained below.
+### Overriding/Patching a package
+Purpose:
+- Change a package's dependency to a newer/older release than the
+    default package set's release
+- Use your own modified version of some dependency that may
+    include new API, changed API, removed API by
+    using your custom git repo of the library rather than
+    the package set's repo
+Syntax:
+where `entityName` is one of the following:
+- dependencies
+- repo
+- version
+-------------------------------
+let upstream = --
+in  upstream
+  with packageName.entityName = "new value"
+-------------------------------
+Example:
+-------------------------------
+let upstream = --
+in  upstream
+  with halogen.version = "master"
+  with halogen.repo = "https://example.com/path/to/git/repo.git"
+  with halogen-vdom.version = "v4.0.0"
+  with halogen-vdom.dependencies = [ "extra-dependency" ] # halogen-vdom.dependencies
+-------------------------------
+### Additions
+Purpose:
+- Add packages that aren't already included in the default package set
+Syntax:
+where `<version>` is:
+- a tag (i.e. "v4.0.0")
+- a branch (i.e. "master")
+- commit hash (i.e. "701f3e44aafb1a6459281714858fadf2c4c2a977")
+-------------------------------
+let upstream = --
+in  upstream
+  with new-package-name =
+    { dependencies =
+       [ "dependency1"
+       , "dependency2"
+       ]
+    , repo =
+       "https://example.com/path/to/git/repo.git"
+    , version =
+        "<version>"
+    }
+-------------------------------
+Example:
+-------------------------------
+let upstream = --
+in  upstream
+  with benchotron =
+      { dependencies =
+          [ "arrays"
+          , "exists"
+          , "profunctor"
+          , "strings"
+          , "quickcheck"
+          , "lcg"
+          , "transformers"
+          , "foldable-traversable"
+          , "exceptions"
+          , "node-fs"
+          , "node-buffer"
+          , "node-readline"
+          , "datetime"
+          , "now"
+          ]
+      , repo =
+          "https://github.com/hdgarrood/purescript-benchotron.git"
+      , version =
+          "v7.0.0"
+      }
+-------------------------------
+-}
+let upstream =
+      https://github.com/purescript/package-sets/releases/download/psc-0.14.7-20220303/packages.dhall
+        sha256:d7cbc15ea16768e4a4f99baa58a54559dd2648c6c1362de2469d9e41c23b28c3
+
+in  upstream
+ 18  
+spago.dhall
+@@ -0,0 +1,18 @@
+{-
+Welcome to a Spago project!
+You can edit this file as you like.
+Need help? See the following resources:
+- Spago documentation: https://github.com/purescript/spago
+- Dhall language tour: https://docs.dhall-lang.org/tutorials/Language-Tour.html
+When creating a new Spago project, you can use
+`spago init --no-comments` or `spago init -C`
+to generate this file without the comments in this block.
+-}
+{ name = "my-project"
+, dependencies =
+  [ "arrays", "console", "effect", "maybe", "prelude", "strings" ]
+, packages = ./packages.dhall
+, sources = [ "src/**/*.purs", "test/**/*.purs" ]
+}
+ 146  
+src/Main.purs
+@@ -0,0 +1,146 @@
+module Main
+  ( arrayOfStrings
+  , main
+  , newOne
+  , reduceOne
+  , theReplicate
+  )
+  where
+
+
+import Data.Array
+import Data.Maybe
+import Data.Ord
+import Prelude
+
+import Data.String as String
+import Effect (Effect)
+import Effect.Console (log)
+
+main :: Effect Unit
+main = do
+  log $ show $ sum 1 2
+  log $ addPrefix "mr." "Lukwago"
+  log $ isOld 25
+  log $ show $ addOne 4
+  log $ show $ length someArray
+  log $ show $ haveInset "Alex"
+  log $ show $ theReplicate "by"
+  log $ show $ theDropped  arrayOfStrings
+  log $ show $ findThat arrayOfStrings 
+  log $ show $ firstOne
+  log $ show $ theCapital
+  log $ show $ shortestString arrayOfStrings
+  log $ show $ line 2 4 
+  --log $ isEven 8
+  log $ show $ findLength arrayOfStrings
+  log "🍝"
+
+sum :: Int -> Int -> Int 
+sum a b = a + b
+
+  -- prefix
+addPrefix :: String -> String -> String 
+addPrefix prefix word = prefix <> word 
+
+-- use if else
+isOld :: Int -> String 
+isOld age = if age > 20 then "This person is old" else "This person is young" 
+
+someArray :: Array Int 
+someArray = [1, 2]
+
+arrayOfStrings :: Array String 
+arrayOfStrings = ["allan", "betty", "Ben"]
+
+--ue map
+changeToString :: Array Int -> Array String 
+changeToString array = map addOne array
+
+-- map :: (Int -> String) -> Array Int -> Array String
+-- map :: (a -> b) -> f a -> f b
+
+
+addOne :: Int -> String
+addOne x = show $ x + 1 
+
+-- use insert Array function 
+haveInset :: String ->  Array String
+haveInset value = insert value arrayOfStrings
+
+-- use filter
+reduceOne :: Array Int -> Array Int
+reduceOne array = filter newOne array
+
+newOne :: Int -> Boolean
+newOne num = num > 1
+
+-- use head
+firstOne ::  Maybe String
+firstOne = head arrayOfStrings
+
+
+-- use elem function 
+givenElement :: Array Int -> Boolean
+givenElement array = elem 5 array
+
+
+-- use find 
+findThat :: Array String -> Maybe String
+findThat array = find word array
+
+word :: String -> Boolean
+word string =  string == "betty"
+
+--use replicate
+theReplicate :: String -> Array String
+theReplicate value = replicate 5 value 
+
+
+-- use the toUpper function from Data.String and array map function
+-- to capitalize all letters in an arrayofStrings
+theCapital :: Array String 
+theCapital = map String.toUpper arrayOfStrings
+
+
+-- Use the drop function from Data.String to remove the first 2 letters 
+-- off each string, in an arrayofstrings.
+theDropped :: Array String -> Array String
+theDropped words = map dropLetters words
+
+dropLetters :: String -> String 
+dropLetters word' = String.drop 2 word'
+
+
+-- find shortest string
+
+shortestString :: Array String -> Maybe String
+shortestString array = head (sortArray array) 
+
+sortArray :: Array String -> Array String
+sortArray array = sortBy compareLength array
+
+compareLength :: String -> String -> Ordering 
+compareLength x y = compare (String.length x) (String.length y)
+
+
+-- write a function named called 'lineFunction or line' that replicates this formular 
+-- y = x * a + c 
+-- where 'x' and 'a' are function arguments and 'c' is constant that is equal to 10 
+line :: Int -> Int -> Int
+line x a = (x * a) + 10
+
+
+-- write a function named 'isEven' that checks whether a function is even or not. If its
+-- even return boolean value 'True'; 'False' otherwise
+
+--isEven :: Int -> Boolean
+--isEven num = if (num / 2) == 0 then True else False
+
+-- Write a function that takes in an arrayofstrings and returns the length of each string
+findLength :: Array String -> Array Int
+findLength array = map theLength array
+
+theLength :: String -> Int
+theLength nums = String.length nums
+
+ 112  
+src/exp.purs
+@@ -0,0 +1,112 @@
+module  Main
+  ( arrayOfStrings
+  , main
+  , newOne
+  , reduceOne
+  , theReplicate
+  )
+  where
+
+
+import Data.Array
+import Data.Maybe
+import Data.Ord
+import Prelude
+
+import Data.String as String
+import Effect (Effect)
+import Effect.Console (log)
+import Prim.Boolean (False)
+
+main :: Effect Unit
+main = do
+log $ show $ theLength wordOfStrings
+log $ show $ getIt wordOfStrings
+log $ show $ oddNum 5
+log $ show $ theFiltered numArray
+log $ show $ theFirst
+log $ show $ inserted "Cultus"
+log $ show $ replicated "mine"
+log $ show $ findIt 6
+log $ show $ multiply 3 3
+log $ show $ thePrefix "Miss." "Katumwa"
+log $ show $ theDrop wordOfStrings
+log $ show $ theToUpper
+log "🍝"
+
+numArray :: Array Int 
+numArray = [5 ,6, 7, 8]
+
+wordOfStrings :: Array String
+wordOfStrings = ["Lauren", "Chloe", "Andrew"]
+
+--use filter
+theFiltered :: Array Int -> Array Int
+theFiltered array =  filter filtered array
+
+filtered :: Int -> Boolean
+filtered num = num > 5
+
+--use length
+theLength :: Array String -> Array Int
+theLength array = map findLength array
+
+findLength :: Array String -> Int
+findLength new = String.length new
+
+--use map
+theMap :: Array Int  -> Array String
+theMap array = map findIt array
+
+findIt :: Int -> String 
+findIt a = show $ a + 2
+
+--use find
+getIt :: Array String -> Maybe String 
+getIt array = find getThat array
+
+getThat :: String -> Boolean
+getThat string = string =="Lauren"
+
+--find odd returning a Boolean
+oddNum :: Int -> Boolean
+oddNum nums = if (nums / 2) == % 1 then True else False
+
+-- use head
+theFirst ::  Maybe String 
+theFirst = head wordOfStrings
+
+--use insert
+inserted :: String -> Array String
+inserted array = insert array wordOfStrings
+
+--use replicate 
+replicated :: Int -> Array String 
+replicated array = replicate 7 array
+
+-- elm
+theElem  :: Array Int -> Boolean
+theElem array = elem 6 array
+
+--multiply 
+multiply :: Int -> Int -> Int
+multiply a b = a * b
+
+--use prefix 
+thePrefix :: String -> String -> String 
+thePrefix prefix word = prefix <> word 
+
+--use drop
+theDrop :: Array String -> Array String
+theDrop array = map showIt array
+
+showIt :: String -> String 
+showIt arrays = String.drop 3 arrays
+
+--toUpper
+theToUpper :: Array String
+theToUpper array = map String.toUpper wordOfStrings
+
+-- find Shortest
+
+
+ 11  
+test/Main.purs
+@@ -0,0 +1,11 @@
+module Test.Main where
+
+import Prelude
+
+import Effect (Effect)
+import Effect.Class.Console (log)
+
+main :: Effect Unit
+main = do
+  log "🍝"
+  log "You should add some tests."
