@@ -1,0 +1,7 @@
+ 
+.gitignore
+@@ -8,3 +8,4 @@
+/.purs*
+/.psa*
+/.spago
+/.dist 
