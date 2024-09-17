@@ -58,19 +58,90 @@ less capable browsers, the website still works, even if some features are downgr
 6-8 resources
 // What are the exceptions?
 // Name 3 ways to decrease page load (perceived or actual load time).
+checking the current speed of a wed page -> this allows the tracking of my movements 
+Never to scale down images -> this is done by using a larger image than needed which
+         helps the lower the file size of the image
+compressinga and ptimising content -> this is done by reducing many file into one file 
+         and this helps the conent to be recieved as a small file
 // If you jumped on a project and they used tabs and you used spaces, what would you do?
+i would consist and adoubt tabs inorder to keepup with the uniformity
 // Describe how you would create a simple slideshow page.
+i would start with installing npm and react the go forward with css where i create the slide-show  
+container where i hide the sliders in display:none. so i use fade that gives the smoothness
+transition effect
 // If you could master one technology this year, what would it be?
+it would be artificial intelligence and machine learing due to the current changes
 // Explain the importance of standards and standards bodies.
+Standards ensure that different products, systems, and services can work together seamlessly. 
+  while 
+  Standards bodies like the IEEE, W3C, ensuring that devices, software, and systems can integrate and communicate across platforms.
 // What is Flash of Unstyled Content? How do you avoid FOUC?
+Flash of Unstyled Content (FOUC) is a visual phenomenon where a web page displays unstyled or partially styled content 
+          for a brief moment before the proper CSS styles are fully loaded and applied.
+   how to avoid it is by minimizing and optimizing css files into one file to help the page run smoothly and faster       
 // Explain what ARIA and screenreaders are, and how to make a website accessible.
+ARIA (Accessible Rich Internet Applications) is a set of attributes designed to improve accessibility for people 
+      using assistive technologies
+ while 
+   Screen readers are assistive technologies that convert digital text into speech or braille for users who 
+        are blind or visually impaired.
+
+
 // Explain some of the pros and cons for CSS animations versus JavaScript animations.
+props
+Performance ->  CSS animations are often more performant because they are optimized by the browser's
+       rendering engine
+Declarative -> they are easier to understand an modify in terms of what is being animated.
+Ease of Use -> Easy to implement using @keyframes or CSS transitions. They require fewer lines of code for simple animations.
+
+cons 
+Limited Control-> CSS animations offer less control over the animation sequence, timing, and events like pausing, starting, 
+       or dynamically changing animations.
+No Animation Logic-> CSS cannot handle complex logic 
+Less Versatile-> Complex animations requiring fine-grained control 
+
 // What does CORS stand for and what issue does it address?
+
+CORS stands for Cross-Origin Resource Sharing. It is a security feature implemented by browsers to control how web pages
+ 
+ without CORS, a website hosted on example.com can't fetch data from api.example.net unless api.example.net explicitly
+        allows it. This can create issues when a website needs to access resources like APIs, images, or fonts hosted on different domains.
+
 // How did you handle a disagreement with your boss or your collaborator?
+
+Listen and Understand ->  I make sure to fully understand their perspective before responding. 
+Communicate Calmly ->  I express my views calmly and respectfully, providing clear reasoning for my standpoint
+Propose a Compromise or Solution-> f possible, I suggest a middle-ground solution that addresses the concerns of both parties
+
 // What resources do you use to learn about the latest in front end development and design?
+
+A List Apart ->  A resource for web design, accessibility, and standards.
+Smashing Magazine -> Offers in-depth articles on front-end technologies, and performance optimization.
+Frontend Masters Blog -> Focuses on advanced front-end development techniques.
 // What skills are needed to be a good front-end developer?
+
+Understanding the use of proper HTML tags to structure content meaningfully.
+Strong understanding of JavaScript fundamentals, ES6+ features
+Ability to interact with and manipulate the DOM efficiently.
+Understanding of Git for version control,
+Knowledge of techniques for optimizing page load times
 // What role do you see yourself in?
+
+I see myself in a role where I can leverage my technical skills and creativity to build high-quality, 
+        user-centric web applications. Ideally, I envision a position as a mid Senior
 // Can you explain what happens when you enter a URL into the browser?
+
+The browser parses the URL to determine the protocol (e.g., http or https), lookup to convert the domain name into an IP address
+then make a 
 // Describe the difference between SSR and CSR. Discuss the pros and cons.
+
+Server-Side Rendering (SSR)
+In SSR, the HTML content is generated on the server and sent to the client (browser) as a fully-rendered page.
+
+Client-Side Rendering (CSR)
+In CSR, the initial HTML page is minimal, and JavaScript is responsible for rendering the content on the client-side.
+
 // Are you familiar with static rendering?
+Static Rendering involves generating the full HTML pages at build time rather than on each request. 
+
 // Rehydration?
