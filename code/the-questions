@@ -72,19 +72,36 @@ the value is {n:2} because foo.x = foo = {{n:2}}
 // doSomething().then(function () {
 //   return doSomethingElse();
 // });
+The function inside .then() returns the result of doSomethingElse(). Since the 
+.then() chain returns a promise, it waits for doSomethingElse() to resolve 
+before continuing with the chain.
 
 // doSomething().then(function () {
 //   doSomethingElse();
 // });
+In this case, doSomethingElse() is called, but its return value (which could be a promise) 
+is not passed back or returned to the chain. The .then() only waits for doSomething() 
+to complete but does not wait for doSomethingElse() to finish.
 // doSomething().then(doSomethingElse());
+This immediately calls doSomethingElse() (without waiting for doSomething() to resolve) 
+and passes its result (not the function itself) to .then().
 // doSomething().then(doSomethingElse);
+Here, doSomethingElse is passed as a callback function to .then(). When doSomething() 
+resolves, it calls doSomethingElse directly.
 
 // Question: What will the code below output to the console and why?
 // (function(){
 //   var a = b = 3;
 // })();
 // console.log("a defined? " + (typeof a !== 'undefined'));
+This checks if a is defined in the global scope. Since a was function-scoped 
+inside the IIFE(Immediately Invoked Function Expression) and is not available globally, it will 
+output: a defined? false
 // console.log("b defined? " + (typeof b !== 'undefined'));
+
+This checks if b is defined in the global scope. Since b was assigned as a 
+global variable, it will 
+output: b defined? true
 
 // Question: Consider the two functions below. Will they both return the same thing? Why or why not?
 // function foo1()
@@ -93,6 +110,10 @@ the value is {n:2} because foo.x = foo = {{n:2}}
 //       bar: "hello"
 //   };
 // }
+This function will return an object
+The return statement is directly followed by an object literal { bar: "hello" }, 
+so JavaScript correctly returns this object.
+
 // function foo2()
 // {
 //   return
@@ -100,3 +121,7 @@ the value is {n:2} because foo.x = foo = {{n:2}}
 //       bar: "hello"
 //   };
 // }
+As a result, the function returns undefined because the return 
+statement is completed before the object is encountered. In this case, the return statement 
+is followed by a newline (line break), and due to a semicolon is automatically inserted after the return statement, 
+making it look like this to the interpreter:
