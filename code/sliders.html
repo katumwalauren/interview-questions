@@ -27,7 +27,7 @@ that allows users to navigate through a set of images with next and previous but
 
         .carousel-images img {
             width: 100%;
-            /* Ensure all images fit in the carousel */
+            
         }
 
         button {
@@ -69,18 +69,18 @@ that allows users to navigate through a set of images with next and previous but
         const totalImages = images.length;
 
         function updateCarousel() {
-            const offset = -currentIndex * 100; // Calculate offset for sliding
+            const offset = -currentIndex * 100; 
             document.querySelector('.carousel-images').style.transform = `translateX(${offset}%)`;
         }
 
         document.getElementById('nextBtn').addEventListener('click', () => {
             currentIndex = (currentIndex + 1) % totalImages; 
-            updateCarousel(); // Update carousel position
+            updateCarousel();
         });
 
         document.getElementById('prevBtn').addEventListener('click', () => {
             currentIndex = (currentIndex - 1 + totalImages) % totalImages; 
-            updateCarousel(); // Update carousel position
+            updateCarousel(); 
         });
     </script>
 </body>
