@@ -1,0 +1,127 @@
+// Question: What is the value of foo?
+// var foo = 10 + '20';
+foo becomes  "1020" because when a number is added to a string then it becomes a string 
+
+// Question: What will be the output of the code below?
+// console.log(0.1 + 0.2 == 0.3);
+0.3
+
+// Question: How would you make this work?
+// add(2, 5); // 7
+// add(2)(5); // 7
+function add(a, b) {
+    if (b !== undefined) {
+      return a + b; 
+    }
+    return function(c) {
+      return a + c; 
+    };
+  }
+  
+  console.log(add(2, 5));  
+  console.log(add(2)(5)); 
+  
+
+// Question: What value is returned from the following statement?
+// "i'm a lasagna hog".split("").reverse().join("");
+"goh angasal a m'i"
+Because the sentence in it is reversed 
+
+// Question: What is the value of window.foo?
+// ( window.foo || ( window.foo = "bar" ) );
+bar
+
+// Question: What is the outcome of the two alerts below?
+// var foo = "Hello";
+// (function() {
+//   var bar = " World";
+//   alert(foo + bar);
+// })();
+// alert(foo + bar);
+"Hello World"
+because foo is known for Hello and bar for world
+
+// Question: What is the value of foo.length?
+// var foo = [];
+// foo.push(1);
+// foo.push(2);
+foo is 2 coz after pushing 1,2 into the empty array foo then their length is 2
+
+// Question: What is the value of foo.x?
+// var foo = {n: 1};
+// var bar = foo;
+// foo.x = foo = {n: 2};
+the value is {n:2} because foo.x = foo = {{n:2}}
+
+// Question: What does the following code print?
+// console.log('one');
+// setTimeout(function() {
+//   console.log('two');
+// }, 0);
+// Promise.resolve().then(function() {
+//   console.log('three');
+// })
+// console.log('four');
+"one"
+"four"
+"three"
+"two"
+
+
+// Question: What is the difference between these four promises?
+// doSomething().then(function () {
+//   return doSomethingElse();
+// });
+The function inside .then() returns the result of doSomethingElse(). Since the 
+.then() chain returns a promise, it waits for doSomethingElse() to resolve 
+before continuing with the chain.
+
+// doSomething().then(function () {
+//   doSomethingElse();
+// });
+In this case, doSomethingElse() is called, but its return value (which could be a promise) 
+is not passed back or returned to the chain. The .then() only waits for doSomething() 
+to complete but does not wait for doSomethingElse() to finish.
+// doSomething().then(doSomethingElse());
+This immediately calls doSomethingElse() (without waiting for doSomething() to resolve) 
+and passes its result (not the function itself) to .then().
+// doSomething().then(doSomethingElse);
+Here, doSomethingElse is passed as a callback function to .then(). When doSomething() 
+resolves, it calls doSomethingElse directly.
+
+// Question: What will the code below output to the console and why?
+// (function(){
+//   var a = b = 3;
+// })();
+// console.log("a defined? " + (typeof a !== 'undefined'));
+This checks if a is defined in the global scope. Since a was function-scoped 
+inside the IIFE(Immediately Invoked Function Expression) and is not available globally, it will 
+output: a defined? false
+// console.log("b defined? " + (typeof b !== 'undefined'));
+
+This checks if b is defined in the global scope. Since b was assigned as a 
+global variable, it will 
+output: b defined? true
+
+// Question: Consider the two functions below. Will they both return the same thing? Why or why not?
+// function foo1()
+// {
+//   return {
+//       bar: "hello"
+//   };
+// }
+This function will return an object
+The return statement is directly followed by an object literal { bar: "hello" }, 
+so JavaScript correctly returns this object.
+
+// function foo2()
+// {
+//   return
+//   {
+//       bar: "hello"
+//   };
+// }
+As a result, the function returns undefined because the return 
+statement is completed before the object is encountered. In this case, the return statement 
+is followed by a newline (line break), and due to a semicolon is automatically inserted after the return statement, 
+making it look like this to the interpreter:
