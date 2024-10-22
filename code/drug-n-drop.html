@@ -1,0 +1,142 @@
+<!-- mplement a Drag and Drop Feature: Create a web page with a drag-and-drop interface using HTML, CSS, and 
+JavaScript. Allow users to drag elements and drop them into designated area.
+<!DOCTYPE html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 10px;
+            user-select: none;
+        }
+
+        .draggable:active {
+            background-color: #45a049;
+        }
+
+        .dropzone, .origin {
+            width: 400px;
+            height: 400px;
+            border: 2px dashed #333;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            font-weight: bold;
+            background-color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Drag and Drop Interface</h1>
+
+<div class="container">
+    <div class="origin" id="origin">
+        <div class="draggable" id="drag1" draggable="true">Item 1</div>
+        <div class="draggable" id="drag2" draggable="true">Item 2</div>
+        <div class="draggable" id="drag3" draggable="true">Item 3</div>
+    </div>
+
+
+    <div class="dropzone" id="dropzone">
+        <span id="dropMessage">Drop items here</span>
+    </div>
+</div>
+
+<script>
+
+    const draggables = document.querySelectorAll('.draggable');
+    const dropzone = document.getElementById('dropzone');
+    const origin = document.getElementById('origin');
+    const dropMessage = document.getElementById('dropMessage');
+
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', dragStart);
+    });
+
+    function dragStart(event) {
+        event.dataTransfer.setData('text', event.target.id);
+    }
+    dropzone.addEventListener('dragover', dragOver);
+    dropzone.addEventListener('drop', drop);
+    origin.addEventListener('dragover', dragOver);
+    origin.addEventListener('drop', returnToOrigin);
+
+    function dragOver(event) {
+        event.preventDefault(); 
+    }
+
+    function drop(event) {
+        event.preventDefault();
+
+        const data = event.dataTransfer.getData('text');
+        const draggedElement = document.getElementById(data);
+
+        const dropzoneRect = dropzone.getBoundingClientRect();
+
+        const offsetX = event.clientX - dropzoneRect.left - (draggedElement.offsetWidth / 2);
+        const offsetY = event.clientY - dropzoneRect.top - (draggedElement.offsetHeight / 2);
+
+        draggedElement.style.position = 'absolute';
+        draggedElement.style.left = `${offsetX}px`;
+        draggedElement.style.top = `${offsetY}px`;
+
+        dropzone.appendChild(draggedElement);
+
+        dropMessage.classList.add('hidden');
+    }
+
+    function returnToOrigin(event) {
+        event.preventDefault();
+
+        const data = event.dataTransfer.getData('text');
+        const draggedElement = document.getElementById(data);
+
+        draggedElement.style.position = 'relative';
+        draggedElement.style.left = 'auto';
+        draggedElement.style.top = 'auto';
+
+        origin.appendChild(draggedElement);
+
+        if (dropzone.children.length === 1) {
+            dropMessage.classList.remove('hidden');
+        }
+    }
+</script>
+
+</body>
+</html>
